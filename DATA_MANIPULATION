@@ -22,6 +22,9 @@ head(metadata)
 metadata.subset<- select(metadata, c(1,10,11,17))
 View(metadata.subset)
 
+#saving the file 
+write.csv(metadata.subset,"metadata_subset.csv")
+
 #saving the file
 write.csv(metadata,"metadata.csv")
 
@@ -32,6 +35,9 @@ metadata.modified <- metadata %>%
   rename(metastasis = characteristics_ch1.1) %>%
   mutate(tissue = gsub("tissue: ", "", tissue)) %>%
   mutate(metastasis = gsub("metastasis: "," ", metastasis))
+
+#saving the file
+write.csv(metadata.modified,"metadata_modified.csv") 
 
 # looking at gene expression data ---------
 head(dat)
