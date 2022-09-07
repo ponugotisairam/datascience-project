@@ -22,7 +22,8 @@ head(metadata)
 metadata.subset<- select(metadata, c(1,10,11,17))
 View(metadata.subset)
 
-
+#saving the file
+write.csv(metadata,"metadata.csv")
 
 # select, mutate, rename ------------
 metadata.modified <- metadata %>%
@@ -52,5 +53,6 @@ dat.long %>%
   summarize(mean_FPKM = mean(FPKM),median_FPKM = median(FPKM)) %>%
   arrange(-mean_FPKM)
 
- 
+#saving the file 
+write.csv(data.long,"data_long.csv")
   
