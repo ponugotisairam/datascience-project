@@ -1,0 +1,51 @@
+# load libraries
+library(dplyr)
+library(rvest)
+library(tidyr)
+library(geneExpressionFromGEO)
+library(GEOquery)
+
+# reading the data ---------
+dat <- read.csv(file = "GSE183947_fpkm.csv")
+dim(dat)
+
+str(dat)
+#meta data
+
+gse <- getGEO(GEO = 'GSE183947', GSEMatrix = TRUE)
+
+gse
+
+metadata <- pData(phenoData(gse[[1]]))
+head(metadata)
+
+metadata.subset<- select(metadata, c(1,10,11,17))
+View(metadata.subset)
+
+# select, mutate, rename ------------
+metadata.modified <- metadata %>%
+  select(1,10,11,17) %>%
+  rename(tissue = characteristics_ch1) %>%
+  rename(metastasis = characteristics_ch1.1) %>%
+  mutate(tissue = gsub("tissue: ", "", tissue)) %>%
+  mutate(metastasis = gsub("metastasis: "," ", metastasis))
+
+# looking at gene expression data ---------
+head(dat)
+
+# reshaping data - from wide to long--------
+dat.long <- dat %>%
+  rename( gene = X) %>%
+  gather( key = 'sample',value = 'FPKM', -gene)
+
+# join dataframes = dat.long + metadata.modified
+
+dat.long <- dat.long %>%
+  left_join(., metadata.modified, by = c("sample" = "description")) 
+# explore data ------
+# filter, group_by, summarize and arrange
+dat.long %>%
+  filter(gene == 'BRCA1' | gene == 'BRCA2') %>%
+  group_by(gene, tissue) %>%
+  summarize(mean_FPKM = mean(FPKM),median_FPKM = median(FPKM)) %>%
+  arrange(-mean_FPKM)
