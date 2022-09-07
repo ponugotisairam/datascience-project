@@ -22,9 +22,7 @@ head(metadata)
 metadata.subset<- select(metadata, c(1,10,11,17))
 View(metadata.subset)
 
-#saving metadata
-GSE183947_metadata<-metadata
-save(GSE183947_metadata,file = "GSE183947_metadata.Rdata")
+
 
 # select, mutate, rename ------------
 metadata.modified <- metadata %>%
@@ -54,15 +52,5 @@ dat.long %>%
   summarize(mean_FPKM = mean(FPKM),median_FPKM = median(FPKM)) %>%
   arrange(-mean_FPKM)
 
-#saving metadata.modified
-GSE183947_metadata_modified<-metadata.modified
-save(GSE183947_metadata_modified,file = "GSE183947md_modified.Rdata")
-
-#saving metadata.subset
-GSE183947_metadata_subset<-metadata.subset
-save(GSE183947_metadata_subset,file = "GSE183947_metadata_subset.Rdata")
-
-#saving dat_long
-GSE183947_dat_long<-dat.long
-save(GSE183947_dat_long,file = "GSE183947_dat_long.Rdata")  
+ 
   
