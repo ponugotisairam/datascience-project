@@ -30,3 +30,9 @@ dat.long %>%
   geom_point() +
   geom_smooth(method = 'lm', se = FALSE)
 
+
+# 4. density plot
+dat.long %>%
+  filter(gene == 'BRCA1') %>%
+  ggplot(., aes(x = FPKM, fill = tissue)) +
+  geom_density(alpha = 0.3)
