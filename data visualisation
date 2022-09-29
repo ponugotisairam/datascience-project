@@ -36,3 +36,7 @@ dat.long %>%
   filter(gene == 'BRCA1') %>%
   ggplot(., aes(x = FPKM, fill = tissue)) +
   geom_density(alpha = 0.3)
+
+
+
+
