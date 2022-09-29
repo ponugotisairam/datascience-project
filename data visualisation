@@ -1,0 +1,32 @@
+#importing libraries
+
+library(dplyr)
+library(rvest)
+library(ggplot2)
+library(tidyr)
+
+#1.barplot
+dat.long %>%
+  filter(gene=='BRCA1') %>%
+  ggplot(., aes(x = sample, y=FPKM, fill = tissue)) +
+  geom_col()
+
+dat.long %>%
+  filter(gene=='BRCA2') %>%
+  ggplot(., aes(x = sample, y=FPKM, fill = tissue)) +
+  geom_col()
+# 2. boxplot 
+dat.long %>%
+  filter(gene == 'BRCA1') %>%
+  ggplot(., aes(x=metastasis , y = FPKM)) + 
+  #geom_boxplot()
+  geom_violin()
+
+#3.scatterplot
+dat.long %>%
+  filter(gene == 'BRCA1'| gene == 'BRCA2') %>%
+  spread( key = gene ,value = FPKM) %>%
+  ggplot(., aes(x= BRCA1 ,y = BRCA2, color = tissue)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = FALSE)
+
